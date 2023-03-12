@@ -50,7 +50,7 @@ public class StatisticalRestApi {
 	}
 	
 	@GetMapping("month")
-	public ResponseEntity<List<Statistical>> getStatisticalYears() {
+	public ResponseEntity<List<Statistical>> getStatisticalMonth() {
 		List<Object[]> list = repo.getStatisticalMonth();
 		List<Statistical> listSta = new ArrayList<>();
 		for(int i = 0; i<list.size(); i++) {

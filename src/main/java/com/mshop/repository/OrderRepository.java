@@ -38,14 +38,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 			+ "where year(order_date) = ? and status = 3\r\n" + "group by month(order_date)", nativeQuery = true)
 	List<Object[]> getStatisticalMonthYear(int year);
 	
-	@Query(value = "select year(order_date), order_date, sum(amount), count(id) from orders where status = 3 group by year(order_date)", nativeQuery = true)
+	@Query(value = "select year(order_date), order_date, sum(amount), count(id) from orders where status = 3 group by year(order_date) order by  year(order_date) desc ", nativeQuery = true)
 	List<Object[]> getStatisticalYear();
 	
-	@Query(value = "select sum(amount), year(order_date), order_date, count(id) from orders where status = 3 group by month(order_date)", nativeQuery = true)
+	@Query(value = "select sum(amount), year(order_date), order_date, count(id) from orders where status = 3 group by month(order_date) ,year(order_date) order by year(order_date) desc", nativeQuery = true)
 	List<Object[]> getStatisticalMonth();
 	
 	@Query(value = "select day(order_date), order_date, sum(amount), count(id) from orders where status = 3\r\n"
-			+ "group by day(order_date)", nativeQuery = true)
+			+ "group by day(order_date) order by year (order_date) ", nativeQuery = true)
 	List<Object[]> getStatisticalDate();
 
 	@Query(value = "select year(order_date) from orders group by year(order_date)", nativeQuery = true)
