@@ -25,7 +25,7 @@ public class sendMailRestApi {
 	SendMailService sendMail;
 	
 	@Autowired
-	UserRepository Urepo;
+	UserRepository userRepository;
 
 	@PostMapping("/order")
 	public ResponseEntity<Void> sendMail(@RequestBody Order o) {
@@ -45,7 +45,7 @@ public class sendMailRestApi {
 	@PostMapping("/otp")
 	public ResponseEntity<Integer> sendOpt(@RequestBody String email) {
 		int random_otp = (int) Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
-		if(Urepo.existsByEmail(email)) {
+		if(userRepository.existsByEmail(email)) {
 			return ResponseEntity.notFound().build();
 		}
 		sendMailOtp(email, random_otp, "Xác nhận tài khoản!");
@@ -55,7 +55,7 @@ public class sendMailRestApi {
 	@PostMapping("/otp-forgot-password")
 	public ResponseEntity<Integer> sendOpt1(@RequestBody String email) {
 		int random_otp = (int) Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
-		if(!Urepo.existsByEmail(email)) {
+		if(!userRepository.existsByEmail(email)) {
 			return ResponseEntity.notFound().build();
 		}
 		sendMailOtp(email, random_otp, "Quên mật khẩu?");
@@ -65,7 +65,7 @@ public class sendMailRestApi {
 	@PostMapping("app/otp-forgot-password")
 	public ResponseEntity<Integer> sendOpt2(@RequestParam String email) {
 		int random_otp1 = (int) Math.floor(Math.random() * (999999 - 100000 + 1) + 100000);
-		if(!Urepo.existsByEmail(email)) {
+		if(!userRepository.existsByEmail(email)) {
 			return ResponseEntity.notFound().build();
 		}
 		sendMailOtp(email, random_otp1, "Quên mật khẩu?");
@@ -79,7 +79,7 @@ public class sendMailRestApi {
 		return formatter.format(Double.valueOf(number)) + " VNĐ";
 	}
 
-	// sendmail
+	// sendmail OTP
 	public void sendMailOtp(String email, int Otp, String title) {
 		String body = "<div>\r\n"
 				+ "        <h3>Mã OTP của bạn là: <span style=\"color:red; font-weight: bold;\">" + Otp
@@ -87,7 +87,7 @@ public class sendMailRestApi {
 		sendMail.queue(email, title, body);
 	}
 
-	// sendmail
+	// sendmail Order
 	public void sendMailOrder(Order order, String subtitle, String title) {
 		List<OrderDetail> list = ODrepo.findOrderDetailByOrderId(order.getId());
 
