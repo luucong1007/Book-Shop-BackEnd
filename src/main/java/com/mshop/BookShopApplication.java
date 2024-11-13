@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class BookShopApplication {
 
-	private final String HelloString = "Hello World!";
-
 	public static void main(String[] args) {
+		String HelloString = "Hello World!";
+		System.out.println(HelloString);
 		SpringApplication.run(BookShopApplication.class, args);
 	}
 
